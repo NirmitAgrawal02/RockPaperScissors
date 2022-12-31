@@ -1,6 +1,8 @@
 import random
 import time
+import tkinter
 
+tkinter._test()
 while True:
     n = input("Do you want to play Rock Paper Scissors\n1. Yes\n0.Exit\n")
     if n == 0:
