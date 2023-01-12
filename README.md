@@ -1,2 +1,2 @@
 # RockPaperScissors
-Rock Paper Scissors Game in Python
+Rock Paper Scissors Game using Tkinter Library for GUI in Python
