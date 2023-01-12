@@ -1,69 +1,170 @@
+# Import Required Library
+from tkinter import *
 import random
-import time
-import tkinter as tk
 
-window = tk.Tk()
-window.geometry("400x300")
-window.title("Rock Paper Scissors Game")
+# Create Object
+root = Tk()
 
-USER_SCORE = 0
-COMP_SCORE = 0
-USER_CHOICE = ""
-COMP_CHOICE = ""
+# Set geometry
+root.geometry("400x400")
 
-while True:
-    n = input("Do you want to play Rock Paper Scissors\n1. Yes\n0.Exit\n")
-    if n == 0:
-        print("Hope You Enjoyed Your Stay! GoodBye")
-        break
-    variables = ["Rock", "Paper", "Scissor"]
-    print(variables)
-    user_input = input("Enter Your Choice\n")
-    bot = random.choice(variables)
-    if user_input == bot:
-        print('-'*30)
-        print(f"Both players selected {user_input}. It's a tie!")
-        print('-'*30)
-        USER_SCORE += 0.5
-        COMP_SCORE += 0.5
+# Set title
+root.title("Rock Paper Scissor Game")
+
+# Computer Value
+computer_value = {
+    "0": "Rock",
+    "1": "Paper",
+    "2": "Scissor"
+}
+
+user_score = 0
+comp_score = 0
+# Reset The Game
+
+
+def reset_game():
+    b1["state"] = "active"
+    b2["state"] = "active"
+    b3["state"] = "active"
+    l1.config(text="Player")
+    l3.config(text="Computer")
+    l4.config(text="")
+
+# Disable the Button
+
+
+def score():
+    global user_score
+    global comp_score
+    s = "Player:" + str(user_score) + "  " + "Computer:" + str(comp_score)
+    l4.config(text=s)
+
+
+def button_disable():
+    b1["state"] = "disable"
+    b2["state"] = "disable"
+    b3["state"] = "disable"
+
+# If player selected rock
+
+
+def isrock():
+    c_v = computer_value[str(random.randint(0, 2))]
+    global user_score
+    global comp_score
+    if c_v == "Rock":
+        match_result = "Match Draw"
+    elif c_v == "Scissor":
+        match_result = "Player Win"
+        user_score = user_score + 1
     else:
-        if user_input == "Rock":
-            if bot == "Scissor":
-                print("Rock Beat Scissor")
-                print('-'*30)
-                print("User Won")
-                print('-'*30)
-                USER_SCORE += 1
-            else:
-                print("Paper Beat Rock")
-                print('-'*30)
-                print("User Lost")
-                print('-'*30)
-                COMP_SCORE += 1
-        elif (user_input == "Paper"):
-            if bot == "Rock":
-                print("Paper Beat Rock")
-                print('-'*30)
-                print("User Lost")
-                print('-'*30)
-                COMP_SCORE = COMP_SCORE + 1
-            else:
-                print("Scissor Beat paper")
-                print('-'*30)
-                print("User Won")
-                print('-'*30)
-                USER_SCORE = USER_SCORE + 1
-        else:
-            if bot == "Rock":
-                print("Rock Beat Scissor")
-                print('-'*30)
-                print("User Won")
-                print('-'*30)
-                USER_SCORE = USER_SCORE + 1
-            else:
-                print("Scissor Beat paper")
-                print('-'*30)
-                print("User Lost")
-                print('-'*30)
-                COMP_SCORE = COMP_SCORE + 1
-    time.sleep(1)
+        match_result = "Computer Win"
+        comp_score = comp_score + 1
+    l4.config(text=match_result)
+    l1.config(text="Rock            ")
+    l3.config(text=c_v)
+    button_disable()
+
+# If player selected paper
+
+
+def ispaper():
+    c_v = computer_value[str(random.randint(0, 2))]
+    global user_score
+    global comp_score
+    if c_v == "Paper":
+        match_result = "Match Draw"
+    elif c_v == "Scissor":
+        match_result = "Computer Win"
+        comp_score = comp_score + 1
+    else:
+        match_result = "Player Win"
+        user_score = user_score + 1
+
+    l4.config(text=match_result)
+    l1.config(text="Paper           ")
+    l3.config(text=c_v)
+    button_disable()
+
+# If player selected scissor
+
+
+def isscissor():
+    c_v = computer_value[str(random.randint(0, 2))]
+    global user_score
+    global comp_score
+    if c_v == "Rock":
+        match_result = "Computer Win"
+        comp_score = comp_score + 1
+    elif c_v == "Scissor":
+        match_result = "Match Draw"
+    else:
+        match_result = "Player Win"
+        user_score = user_score + 1
+    l4.config(text=match_result)
+    l1.config(text="Scissor         ")
+    l3.config(text=c_v)
+    button_disable()
+
+
+# Add Labels, Frames and Button
+Label(root,
+      text="Rock Paper Scissor",
+      font="normal 20 bold",
+      fg="blue").pack(pady=20)
+
+frame = Frame(root)
+frame.pack()
+
+l1 = Label(frame,
+           text="Player              ",
+           font=10)
+
+l2 = Label(frame,
+           text="VS             ",
+           font="normal 10 bold")
+
+l3 = Label(frame, text="Computer", font=10)
+
+l1.pack(side=LEFT)
+l2.pack(side=LEFT)
+l3.pack()
+
+l4 = Label(root,
+           text="",
+           font="normal 20 bold",
+           bg="white",
+           width=20,
+           borderwidth=2,
+           relief="solid")
+l4.pack(pady=20)
+
+frame1 = Frame(root)
+frame1.pack()
+
+b1 = Button(frame1, text="Rock",
+            font=10, width=7,
+            command=isrock)
+
+b2 = Button(frame1, text="Paper ",
+            font=10, width=7,
+            command=ispaper)
+
+b3 = Button(frame1, text="Scissor",
+            font=10, width=7,
+            command=isscissor)
+
+b1.pack(side=LEFT, padx=10)
+b2.pack(side=LEFT, padx=10)
+b3.pack(padx=10)
+
+Button(root, text="Play Another Round",
+       font=10, fg="red",
+       bg="black", command=reset_game).pack(pady=10)
+Button(root, text="Score",
+       font=10, fg="red",
+       bg="black", command=score).pack(pady=10)
+
+# Execute Tkinter
+root.mainloop()
